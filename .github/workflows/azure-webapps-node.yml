@@ -2,17 +2,17 @@ name: node js
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-
     runs-on: self-hosted
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Copy files
-      run: Copy-Item 'C:\Data\app_offline.htm' 'C:\WebSite\app_offline.htm';Start-Sleep -s 10;Remove-Item 'C:\actions-runner\_work\TransamDeploy\TransamDeploy\aspnetcorev2_inprocess.dll' -Force -Recurse -Verbose;Copy-item -Force -Recurse -Verbose "C:\actions-runner\_work\TransamDeploy\TransamDeploy\*" -Destination "C:\WebSite\";Remove-Item 'C:\WebSite\.git' -Force -Recurse -Verbose;Remove-Item 'C:\WebSite\.github' -Force -Recurse -Verbose;Remove-Item 'C:\WebSite\app_offline.htm';
+      - name: Copy files
+        run: cd C:\ActionRunners & mkdir lol;
+        # run: Copy-Item 'C:\Data\app_offline.htm' 'C:\WebSite\app_offline.htm';Start-Sleep -s 10;Remove-Item 'C:\actions-runner\_work\TransamDeploy\TransamDeploy\aspnetcorev2_inprocess.dll' -Force -Recurse -Verbose;Copy-item -Force -Recurse -Verbose "C:\actions-runner\_work\TransamDeploy\TransamDeploy\*" -Destination "C:\WebSite\";Remove-Item 'C:\WebSite\.git' -Force -Recurse -Verbose;Remove-Item 'C:\WebSite\.github' -Force -Recurse -Verbose;Remove-Item 'C:\WebSite\app_offline.htm';
