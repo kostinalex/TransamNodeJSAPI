@@ -2,17 +2,17 @@ const jsonwebtoken = require("jsonwebtoken");
 var settings = require('../appsettings.json');
 
 async function autherize(req, res, next, role) {
-    console.log("Authentication")
+    //console.log("Authentication")
     let authenticated = false;
 
     const token = req.headers.authorization;
-    console.log("req.headers", req.headers)
-    console.log("token", token)
+    // console.log("req.headers", req.headers)
+    // console.log("token", token)
     if (token) {
         try {
             const decodedToken = jsonwebtoken.verify(token, settings.JWT);
-            console.log("decodedToken", decodedToken)
-            console.log("roles", decodedToken.UserRoles)
+            // console.log("decodedToken", decodedToken)
+            // console.log("roles", decodedToken.UserRoles)
             if (decodedToken.UserRoles.indexOf("CanEnter") == -1) {
                 console.log("No CanEnter role")
                 return res.status(401).send("Unautherized")
