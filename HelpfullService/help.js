@@ -101,10 +101,6 @@ async function sendEmailCallBack(req, token) {
     SaveToSentItems: emailToSend.saveToSentFolder,
   };
 
-  //console.log("sleep start");
-  await sleep(20);
-  //console.log("sleep end");
-
   request(
     {
       headers: {
@@ -123,7 +119,7 @@ async function sendEmailCallBack(req, token) {
       if (error) {
         console.log("error: ", error);
       } else {
-        //console.log("Bingo!", response.statusCode);
+        console.log("Bingo!", response.statusCode);
       }
     }
   );
