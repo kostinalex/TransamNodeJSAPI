@@ -45,6 +45,7 @@ async function getCollectionLetters(req, res, next) {
           Authorization: req.headers.authorization,
         },
         url: "https://transamapp.transamcarriers.com/api/getnotpaidinvoicesfromqb/10",
+        // url: "http://localhost:5002/api/getnotpaidinvoicesfromqb/10",
         method: "GET",
       },
       function (error, response, body) {
