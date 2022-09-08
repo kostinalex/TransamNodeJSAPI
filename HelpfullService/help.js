@@ -50,8 +50,7 @@ async function autherizeWithMicrosoft(req, res, next, callback) {
         } else {
           const tokenObj = JSON.parse(body);
           const token = tokenObj.access_token;
-          callback(req, token);
-          res.send({ token });
+          callback(req, res, token);
         }
       }
     );
@@ -61,7 +60,7 @@ async function autherizeWithMicrosoft(req, res, next, callback) {
   }
 }
 
-async function sendEmailCallBack(req, token) {
+async function sendEmailCallBack(req, res, token) {
   //console.log("req.body=", req.body);
   let emailToSend = req.body;
 
@@ -120,6 +119,8 @@ async function sendEmailCallBack(req, token) {
         console.log("error: ", error);
       } else {
         console.log("Bingo!", response.statusCode);
+
+        res.send({ status: response.statusCode });
       }
     }
   );
