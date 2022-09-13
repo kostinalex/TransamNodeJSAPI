@@ -8,6 +8,7 @@ var help = require("./HelpfullService/help");
 
 const collectionLettersController = require("./Controllers/collectionLettersController.js");
 const loginController = require("./Controllers/loginController.js");
+const accidentsController = require("./Controllers/accidentsController.js");
 
 const app = express();
 const port = process.env.port || 3000;
@@ -16,6 +17,8 @@ app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
 app.post("/api/login", loginController.login);
+
+app.get("/api/getaccidents", accidentsController.getAccidents);
 
 app.get(
   "/api/getcollectionletters/:minDaysOfAging",

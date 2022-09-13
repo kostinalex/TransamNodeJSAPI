@@ -1,40 +1,11 @@
-var mysql = require("mysql");
 var settings = require("../appsettings.json");
 var help = require("../HelpfullService/help.js");
 var request = require("request");
 const crypto = require("crypto");
 var path = require("path");
 
-const context = mysql.createConnection({
-  host: settings.ConnectionStrings.MySql.host,
-  user: settings.ConnectionStrings.MySql.user,
-  password: settings.ConnectionStrings.MySql.password,
-  database: settings.ConnectionStrings.MySql.database,
-});
-context.connect(function (err) {
-  if (err) throw err;
-  console.log("Transam db connected");
-});
-
-var dbf = require("mssql");
-const { Console } = require("console");
-
-dbf.connect(
-  {
-    user: settings.ConnectionStrings.FleetManager.user,
-    password: settings.ConnectionStrings.FleetManager.password,
-    server: settings.ConnectionStrings.FleetManager.server,
-    database: settings.ConnectionStrings.FleetManager.database,
-    synchronize: true,
-    trustServerCertificate: true,
-    requestTimeout: 60000,
-  },
-  function (err) {
-    if (err) console.log(err);
-  }
-);
-
-//        [HttpPost("/api/getfile")]
+const context = require("../Data/context.js").connection;
+const dbf = require("../Data/dbf.js").connection;
 
 async function getCollectionLetters(req, res, next) {
   try {
@@ -219,7 +190,7 @@ async function getCollectionLetters(req, res, next) {
                         for (let customer of invoicesGrouped) {
                           for (let invoice of customer.invoices) {
                             invoice.aging = help.dateDiffInDays(
-                              new Date(invoice.dueDate),
+                              new Date(invoice.shipDate),
                               new Date()
                             );
                             let attachments = report.recordset.filter(
@@ -419,13 +390,6 @@ async function getCollectionLetters(req, res, next) {
     console.error("Error", err.message);
     next(err);
   }
-}
-
-function groupBy(array, key) {
-  return array.reduce(function (rv, x) {
-    (rv[x[key]] = rv[x[key]] || []).push(x);
-    return rv;
-  }, {});
 }
 
 module.exports = {

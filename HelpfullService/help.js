@@ -77,15 +77,35 @@ async function sendEmailCallBack(req, res, token) {
 
   let count = 0;
 
-  for (let attachment of emailToSend.attachmentsPaths) {
-    const base64 = fs.readFileSync(attachment, { encoding: "base64" });
-    attachments.push({
-      "@odata.type": "microsoft.graph.fileAttachment",
-      Name: path.basename(attachment),
-      ContentBytes: base64,
-    });
-    count++;
+  if (emailToSend.attachmentsPaths != undefined) {
+    for (let attachment of emailToSend.attachmentsPaths) {
+      attachments.push({
+        "@odata.type": "microsoft.graph.fileAttachment",
+        Name: path.basename(attachment),
+        ContentBytes: fs.readFileSync(attachment, { encoding: "base64" }),
+      });
+      count++;
+    }
   }
+
+  if (emailToSend.attachments != undefined) {
+    for (let attachment of emailToSend.attachments) {
+      // const base64 = Buffer.from("Id,Name,Amount").toString("base64");
+      // console.log("base64=", base64);
+      attachments.push({
+        "@odata.type": "microsoft.graph.fileAttachment",
+        Name:
+          path
+            .basename(attachment.name)
+            .replace(/\.[^/.]+$/, "")
+            .replace(/[^a-zA-Z ]/g, "") + path.extname(attachment.name),
+        ContentBytes: attachment.base64,
+      });
+      count++;
+    }
+  }
+
+  console.log("attachments=", attachments);
 
   let email = {
     Message: {
